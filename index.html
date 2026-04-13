@@ -98,11 +98,24 @@
           drawImageIOSFix(context,img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, 600, 500);
 
           /*  +++++++++++++++ BEGIN IMAGE PROCESSING +++++++++++++++ */
+       
           /*  ++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
           /* PUT ANY CHANGES TO THE JAVASCRIPT HERE  */
-          
-          
+     /*1. Get the image data from the first canvas (original image) [cite: 58]*/
+var imageData = context.getImageData(0, 0, 600, 500);
+var data = imageData.data;
+
+/*2. Loop through every pixel (each pixel has 4 values: Red, Green, Blue, Alpha)*/
+for (var i = 0; i < data.length; i += 4) {
+    data[i]     = 0; // Set Red intensity to 0 
+    data[i + 1] = 0; // Set Green intensity to 0 
+    /*data[i + 2] remains the same (Blue intensity)*/
+    /*data[i + 3] remains the same (Alpha/Transparency)*/
+}
+
+/*3. Put the transformed (blue-only) data onto the second canvas*/
+context2.putImageData(imageData, 0, 0);
           
           
         } // end of img.onload
@@ -148,7 +161,7 @@
   var context2 = canvas2.getContext("2d");
   context2.font = '20pt Calibri';
   context2.fillStyle = "black";
-  context2.fillText("Blue intensities will go here", 10, 20); /* Identifying text [cite: 53]*/
+  context2.fillText("Blue intensities will go here", 10, 20); /* Identifying text*/
 </script>
       </script>
 
